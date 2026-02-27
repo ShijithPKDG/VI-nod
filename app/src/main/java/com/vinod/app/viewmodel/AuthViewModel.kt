@@ -31,7 +31,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun login(name: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            val result = repository.signIn(name)
+            val result = repository.mockLogin(name)
             result.onSuccess { user ->
                 _authState.value = AuthState.Authenticated(user)
             }
@@ -42,7 +42,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     fun logout() {
-        repository.signOut()
+        repository.mockLogout()
         _authState.value = AuthState.Unauthenticated
     }
 }
