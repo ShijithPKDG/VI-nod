@@ -1,16 +1,16 @@
 package com.vinod.app.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.vinod.app.data.model.User
-import com.vinod.app.data.repository.AuthRepository
+import com.vinod.app.data.repository.MockAuthRepository
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
-    private val repository = AuthRepository()
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = MockAuthRepository(application)
     
     private val _authState = MutableLiveData<AuthState>()
     val authState: LiveData<AuthState> = _authState
@@ -28,28 +28,15 @@ class AuthViewModel : ViewModel() {
         }
     }
     
-    fun signInWithGoogle(idToken: String) {
+    fun signIn(name: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            repository.signInWithGoogle(idToken).fold(
+            repository.signIn(name).fold(
                 onSuccess = { user ->
                     _authState.value = AuthState.Authenticated(user)
                 },
                 onFailure = { error ->
                     _authState.value = AuthState.Error(error.message ?: "Sign in failed")
-                }
-            )
-        }
-    }
-    
-    fun createProfile(user: User) {
-        viewModelScope.launch {
-            repository.createUserProfile(user).fold(
-                onSuccess = {
-                    _authState.value = AuthState.ProfileCreated
-                },
-                onFailure = { error ->
-                    _authState.value = AuthState.Error(error.message ?: "Profile creation failed")
                 }
             )
         }
@@ -64,7 +51,6 @@ class AuthViewModel : ViewModel() {
 sealed class AuthState {
     object Unauthenticated : AuthState()
     object Loading : AuthState()
-    data class Authenticated(val user: FirebaseUser) : AuthState()
-    object ProfileCreated : AuthState()
+    data class Authenticated(val user: User) : AuthState()
     data class Error(val message: String) : AuthState()
 }
