@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/primary"
+        android:elevation="4dp"
         app:navigationIcon="@drawable/ic_send"
         app:titleTextColor="@android:color/white" />
 
@@ -18,32 +20,54 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:padding="12dp"
+        android:clipToPadding="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="?attr/colorSurface"
-        android:elevation="4dp">
+        android:padding="12dp"
+        android:background="@color/surface"
+        android:elevation="8dp"
+        android:gravity="center_vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/messageInput"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Type a message"
-            android:background="@android:color/transparent"
-            android:padding="12dp" />
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#F5F5F5">
 
-        <ImageView
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/messageInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Type a message"
+                android:background="@android:color/transparent"
+                android:padding="12dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:maxLines="4"
+                android:textSize="15sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_send"
-            android:padding="12dp"
-            android:contentDescription="Send" />
+            app:fabSize="mini"
+            app:tint="@android:color/white"
+            app:backgroundTint="@color/primary" />
 
     </LinearLayout>
 
