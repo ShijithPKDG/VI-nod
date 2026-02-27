@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 0 -> "Chat"
                 1 -> "Gallery"
                 2 -> "Vibe"
+                3 -> "Kali"
                 else -> ""
             }
         }.attach()
@@ -33,13 +34,14 @@ class MainActivity : AppCompatActivity() {
     private inner class ViewPagerAdapter(activity: AppCompatActivity) : 
         FragmentStateAdapter(activity) {
         
-        override fun getItemCount(): Int = 3
+        override fun getItemCount(): Int = 4
         
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> ChatListFragment()
                 1 -> GalleryFragment()
                 2 -> VibeFragment()
+                3 -> KaliFragment()
                 else -> ChatListFragment()
             }
         }

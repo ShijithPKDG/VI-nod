@@ -17,7 +17,6 @@
             android:id="@+id/avatarText"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="?attr/colorPrimary"
             android:gravity="center"
             android:text="A"
             android:textColor="@android:color/white"
