@@ -1,3 +1,18 @@
+# 📤 Upload These Fixed Files to GitHub
+
+## Files That Need to be Updated:
+
+### 1. activity_login.xml (FIXED)
+**Location:** `app/src/main/res/layout/activity_login.xml`
+
+**How to update:**
+1. Go to your GitHub repo
+2. Navigate to: `app/src/main/res/layout/activity_login.xml`
+3. Click **pencil icon** (Edit)
+4. **Delete all content**
+5. **Copy and paste this:**
+
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,3 +78,32 @@
         android:layout_marginBottom="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+6. Click **"Commit changes"**
+
+---
+
+### 2. Delete These Files (if they exist):
+- `app/src/main/res/mipmap-hdpi/ic_launcher.xml`
+- `app/src/main/res/mipmap-hdpi/ic_launcher_round.xml`
+
+**How to delete:**
+1. Navigate to each file
+2. Click the file
+3. Click **trash icon** (Delete)
+4. Commit
+
+---
+
+## 🚀 After Updating:
+
+1. Go to **Actions** tab
+2. Click **"Build Android APK"**
+3. Click **"Run workflow"**
+4. Wait for green checkmark ✅
+5. Download APK from Artifacts!
+
+---
+
+**This will fix all the errors!** 🎉
