@@ -18,14 +18,14 @@ class MessageAdapter(
     inner class SentViewHolder(private val binding: ItemMessageSentBinding) : 
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: String) {
-            binding.messageText.text = message
+            binding.tvMessage.text = message
         }
     }
 
     inner class ReceivedViewHolder(private val binding: ItemMessageReceivedBinding) : 
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: String) {
-            binding.messageText.text = message
+            binding.tvMessage.text = message
         }
     }
 
