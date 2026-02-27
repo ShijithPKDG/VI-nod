@@ -28,21 +28,20 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    fun signIn(name: String) {
+    fun login(name: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            repository.signIn(name).fold(
-                onSuccess = { user ->
-                    _authState.value = AuthState.Authenticated(user)
-                },
-                onFailure = { error ->
-                    _authState.value = AuthState.Error(error.message ?: "Sign in failed")
-                }
-            )
+            val result = repository.signIn(name)
+            result.onSuccess { user ->
+                _authState.value = AuthState.Authenticated(user)
+            }
+            result.onFailure { error ->
+                _authState.value = AuthState.Error(error.message ?: "Sign in failed")
+            }
         }
     }
     
-    fun signOut() {
+    fun logout() {
         repository.signOut()
         _authState.value = AuthState.Unauthenticated
     }
