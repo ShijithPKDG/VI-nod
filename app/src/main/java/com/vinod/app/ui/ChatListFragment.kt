@@ -14,9 +14,10 @@ class ChatListFragment : Fragment() {
     private val binding get() = _binding!!
     
     private val demoChats = listOf(
+        "Myranmar (Group)",  // Group chat with all members
         "Akhil", "Pranav", "Shijith", "Vyshnav", "Manu",
         "Thejus", "Nived", "Navaneeth", "Achuttan", "Pachooty",
-        "Appus", "Kunna", "Pookie", "Pooran"
+        "Appus", "Kunna", "Pookie", "Pooran", "Raghavan"
     )
     
     override fun onCreateView(

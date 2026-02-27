@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinod.app.databinding.ItemChatListBinding
-import kotlin.random.Random
 
 class ChatListAdapter(
     private val names: List<String>,
@@ -22,14 +21,28 @@ class ChatListAdapter(
         
         fun bind(name: String, position: Int) {
             binding.nameText.text = name
-            binding.messagePreview.text = "Hey! How are you?"
+            
+            // Different preview for group
+            if (name.contains("Group")) {
+                binding.messagePreview.text = "Group chat with everyone"
+            } else {
+                binding.messagePreview.text = "എന്താ മൈരാ വായിൽ ഇടണോ"
+            }
             
             // Set first letter as avatar
-            val firstLetter = name.firstOrNull()?.uppercase() ?: "?"
+            val firstLetter = if (name.contains("Group")) {
+                "M"  // M for Myranmar
+            } else {
+                name.firstOrNull()?.uppercase() ?: "?"
+            }
             binding.avatarText.text = firstLetter
             
-            // Set random color for avatar
-            val color = Color.parseColor(colors[position % colors.size])
+            // Set color for avatar - special color for group
+            val color = if (name.contains("Group")) {
+                Color.parseColor("#1E88E5")  // Premium blue for group
+            } else {
+                Color.parseColor(colors[position % colors.size])
+            }
             binding.avatarText.setBackgroundColor(color)
             
             binding.root.setOnClickListener { onItemClick(name) }

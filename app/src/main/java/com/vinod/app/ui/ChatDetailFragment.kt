@@ -13,6 +13,8 @@ class ChatDetailFragment : Fragment() {
     private var _binding: FragmentChatDetailBinding? = null
     private val binding get() = _binding!!
     private var chatName: String = ""
+    private val messagesList = mutableListOf<Pair<String, Boolean>>()
+    private lateinit var adapter: MessageAdapter
     
     companion object {
         private const val ARG_NAME = "name"
@@ -46,26 +48,40 @@ class ChatDetailFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
         
-        // Demo messages - first message from server side
-        val demoMessages = listOf(
-            Pair("എന്താ മൈരാ വായിൽ ഇടണോ", false),  // Server message (received)
-            Pair("Hey! How are you?", true),
-            Pair("I'm good! Thanks for asking", false),
-            Pair("Want to catch up later?", true),
-            Pair("Sure! Let me know when", false)
-        )
+        // Only show the Malayalam message initially (from server/other person)
+        messagesList.add(Pair("എന്താ മൈരാ വായിൽ ഇടണോ", false))
         
+        adapter = MessageAdapter(messagesList)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = MessageAdapter(demoMessages)
+        binding.recyclerView.adapter = adapter
         
-        // Scroll to bottom to show latest messages
-        binding.recyclerView.scrollToPosition(demoMessages.size - 1)
+        // Scroll to bottom
+        binding.recyclerView.scrollToPosition(messagesList.size - 1)
         
         binding.sendButton.setOnClickListener {
-            val text = binding.messageInput.text.toString()
+            val text = binding.messageInput.text.toString().trim()
             if (text.isNotEmpty()) {
+                // Add user's message
+                messagesList.add(Pair(text, true))
+                adapter.notifyItemInserted(messagesList.size - 1)
+                binding.recyclerView.scrollToPosition(messagesList.size - 1)
+                
+                // Clear input
                 binding.messageInput.text?.clear()
-                // In real app, send message here
+                
+                // Simulate response after a short delay
+                binding.recyclerView.postDelayed({
+                    val responses = listOf(
+                        "Got it!",
+                        "Sure thing!",
+                        "Okay",
+                        "Alright",
+                        "👍"
+                    )
+                    messagesList.add(Pair(responses.random(), false))
+                    adapter.notifyItemInserted(messagesList.size - 1)
+                    binding.recyclerView.scrollToPosition(messagesList.size - 1)
+                }, 1000)
             }
         }
     }
