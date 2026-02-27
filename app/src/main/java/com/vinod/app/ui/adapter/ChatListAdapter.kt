@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinod.app.databinding.ItemChatListBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatListAdapter(
     private val names: List<String>,
@@ -15,12 +17,15 @@ class ChatListAdapter(
         "#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8",
         "#F7DC6F", "#BB8FCE", "#85C1E2", "#F8B739", "#52B788"
     )
+    
+    private val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
     inner class ViewHolder(private val binding: ItemChatListBinding) : 
         RecyclerView.ViewHolder(binding.root) {
         
         fun bind(name: String, position: Int) {
             binding.nameText.text = name
+            binding.timeText.text = timeFormat.format(Date())
             
             // Different preview for group
             if (name.contains("Group")) {

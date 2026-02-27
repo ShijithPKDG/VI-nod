@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinod.app.databinding.ItemMessageReceivedBinding
 import com.vinod.app.databinding.ItemMessageSentBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MessageAdapter(
     private val messages: List<Pair<String, Boolean>>
@@ -14,11 +16,14 @@ class MessageAdapter(
         private const val VIEW_TYPE_SENT = 1
         private const val VIEW_TYPE_RECEIVED = 2
     }
+    
+    private val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
     inner class SentViewHolder(private val binding: ItemMessageSentBinding) : 
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: String) {
             binding.tvMessage.text = message
+            binding.tvTime.text = timeFormat.format(Date())
         }
     }
 
@@ -26,6 +31,7 @@ class MessageAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: String) {
             binding.tvMessage.text = message
+            binding.tvTime.text = timeFormat.format(Date())
         }
     }
 
