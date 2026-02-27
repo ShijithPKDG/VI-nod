@@ -42,7 +42,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
     
     fun logout() {
-        repository.mockLogout()
+        repository.logout()
         _authState.value = AuthState.Unauthenticated
     }
 }
