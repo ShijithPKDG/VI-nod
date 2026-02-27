@@ -2,9 +2,9 @@ package com.vinod.app.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.vinod.app.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.vinod.app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,10 +15,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        setSupportActionBar(binding.toolbar)
         
-        binding.bottomNavigation.setupWithNavController(navController)
+        val adapter = ViewPagerAdapter(this)
+        binding.viewPager.adapter = adapter
+        
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Chat"
+                1 -> "Gallery"
+                2 -> "Vibe"
+                else -> ""
+            }
+        }.attach()
+    }
+    
+    private inner class ViewPagerAdapter(activity: AppCompatActivity) : 
+        FragmentStateAdapter(activity) {
+        
+        override fun getItemCount(): Int = 3
+        
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> ChatListFragment()
+                1 -> GalleryFragment()
+                2 -> VibeFragment()
+                else -> ChatListFragment()
+            }
+        }
     }
 }

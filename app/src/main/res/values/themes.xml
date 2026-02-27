@@ -8,4 +8,9 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:statusBarColor">@color/primary</item>
     </style>
+    
+    <style name="Theme.VINod.NoActionBar" parent="Theme.VINod">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
