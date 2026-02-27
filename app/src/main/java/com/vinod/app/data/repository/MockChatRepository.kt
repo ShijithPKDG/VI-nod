@@ -37,7 +37,41 @@ class MockChatRepository(private val context: Context) {
     }
     
     fun getMessages(groupId: String): Flow<List<Message>> {
-        val messages = loadMessages().filter { it.groupId == groupId }
+        var messages = loadMessages().filter { it.groupId == groupId }.toMutableList()
+        
+        // Add demo messages if group is empty
+        if (messages.isEmpty()) {
+            val demoNames = listOf(
+                "Pookie Vyshnav", "Gym Pranav", "Vinod", "Shijith", 
+                "Akhil", "Appos", "Bhuvanesh", "Navaneeth", 
+                "Nived", "Thejus", "Pooran"
+            )
+            val demoMessages = listOf(
+                "Hey everyone! 👋",
+                "Welcome to the group!",
+                "This is awesome! 🎉",
+                "Let's stay connected",
+                "Great to be here!",
+                "Hello friends! 😊",
+                "Nice to meet you all",
+                "Looking forward to chatting",
+                "This app is cool!",
+                "Hi there! 👍",
+                "Excited to be part of this group"
+            )
+            
+            demoNames.forEachIndexed { index, name ->
+                messages.add(Message(
+                    messageId = "demo_$index",
+                    groupId = groupId,
+                    senderId = "demo_user_$index",
+                    senderName = name,
+                    text = demoMessages.getOrElse(index) { "Hello!" },
+                    timestamp = System.currentTimeMillis() - (demoNames.size - index) * 60000
+                ))
+            }
+        }
+        
         messagesFlow.value = messages
         return messagesFlow
     }
