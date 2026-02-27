@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinod.app.data.model.Message
 import com.vinod.app.data.repository.MockAuthRepository
@@ -18,9 +17,10 @@ class ChatFragment : Fragment() {
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ChatViewModel by viewModels()
-    private val args: ChatFragmentArgs by navArgs()
     private lateinit var adapter: MessageAdapter
     private lateinit var authRepository: MockAuthRepository
+    private var groupId: String = ""
+    private var groupName: String = ""
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,13 +35,18 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         authRepository = MockAuthRepository(requireContext())
-        binding.tvGroupName.text = args.groupName
+        
+        // Get arguments
+        groupId = arguments?.getString("groupId") ?: ""
+        groupName = arguments?.getString("groupName") ?: ""
+        
+        binding.tvGroupName.text = groupName
         
         setupRecyclerView()
         setupObservers()
         setupClickListeners()
         
-        viewModel.loadMessages(args.groupId)
+        viewModel.loadMessages(groupId)
     }
     
     private fun setupRecyclerView() {
@@ -66,7 +71,7 @@ class ChatFragment : Fragment() {
             if (text.isNotBlank()) {
                 val currentUser = authRepository.getCurrentUser() ?: return@setOnClickListener
                 val message = Message(
-                    groupId = args.groupId,
+                    groupId = groupId,
                     senderId = currentUser.uid,
                     senderName = currentUser.name,
                     text = text

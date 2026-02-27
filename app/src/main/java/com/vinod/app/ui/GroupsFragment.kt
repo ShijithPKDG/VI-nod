@@ -49,11 +49,12 @@ class GroupsFragment : Fragment() {
     
     private fun setupRecyclerView() {
         adapter = GroupAdapter { group ->
-            val action = GroupsFragmentDirections.actionGroupsToChat(
-                group.groupId,
-                group.name
-            )
-            findNavController().navigate(action)
+            // Navigate to chat using bundle
+            val bundle = Bundle().apply {
+                putString("groupId", group.groupId)
+                putString("groupName", group.name)
+            }
+            findNavController().navigate(R.id.action_groups_to_chat, bundle)
         }
         binding.recyclerGroups.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerGroups.adapter = adapter
